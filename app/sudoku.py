@@ -62,10 +62,10 @@ g.add_edges_from(l3)
 g.add_edges_from(l4)
 
 # column
-c1 = [(1, 9), (1, 13)]
-c2 = [(2, 10), (2, 14)]
-c3 = [(3, 11), (3, 15)]
-c4 = [(4, 12), (4, 16)]
+c1 = [(1, 9), (1, 13), (5, 9), (5, 13)]
+c2 = [(2, 10), (2, 14), (6, 10), (6, 14)]
+c3 = [(3, 11), (3, 15), (7, 11), (7, 15)]
+c4 = [(4, 12), (4, 16), (8, 12), (8, 16)]
 
 g.add_edges_from(c1)
 g.add_edges_from(c2)
@@ -76,6 +76,41 @@ g.add_edges_from(c4)
 # if node status is false
 # for all neighbors status true
 # try remove neighbor color
+for x in range(1,17):
+    if not g.node[x]['status']:
+        for e in g.neighbors(x):
+            if g.node[e]['status']:
+                try:
+                    g.node[x]['color'].remove(g.node[e]['color'])
+                # if the color is already removed
+                except ValueError:
+                    pass
+
+# update values
+for x in range(1, 17):
+    # status = false and one element in color list
+    if not g.node[x]['status'] and len(g.node[x]['color']) == 1:
+        g.node[x]['status'] = True
+        g.node[x]['color'] = g.node[x]['color'][0]
+
+
+for x in range(1,17):
+    if not g.node[x]['status']:
+        for e in g.neighbors(x):
+            if g.node[e]['status']:
+                try:
+                    g.node[x]['color'].remove(g.node[e]['color'])
+                # if the color is already removed
+                except ValueError:
+                    pass
+
+# update values
+for x in range(1, 17):
+    # status = false and one element in color list
+    if not g.node[x]['status'] and len(g.node[x]['color']) == 1:
+        g.node[x]['status'] = True
+        g.node[x]['color'] = g.node[x]['color'][0]
+
 for x in range(1,17):
     if not g.node[x]['status']:
         for e in g.neighbors(x):
