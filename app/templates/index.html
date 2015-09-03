@@ -1,4 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
-    Hello :D
+<form action="">
+    {% for i in range(4) %}
+        <div>
+            {% for j in range(4) %}
+                <select name="" id="">
+                    {% for k in range(5) %}
+                        <option>{{ k }}</option>
+                    {% endfor %}
+                </select>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <button>clear</button>
+    <input type="submit" value="solution">
+</form>
 {% endblock %}
