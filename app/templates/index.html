@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-<form action="">
-    {% for i in range(4) %}
+<form method="post" action="{{ url_for('sudoku') }}" >
+    {% for i in range(9) %}
         <div>
-            {% for j in range(4) %}
-                <select name="" id="">
-                    {% for k in range(5) %}
+            {% for j in range(9) %}
+                <select name="{{ nodes[i][j] }}" id="">
+                    {% for k in range(10) %}
                         <option>{{ k }}</option>
                     {% endfor %}
                 </select>
