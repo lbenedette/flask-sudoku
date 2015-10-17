@@ -1,13 +1,6 @@
 import networkx as nx
 
 
-# networkx graph
-# g = nx.Graph()
-# g is a dict of dicts
-# g = {'node1': {'attr1': data1, 'attr2': data2}, 'node2': {}}
-# access node: g.node['node1']
-# access node attribute: g.node['node1']['attr1']
-
 number = ['0', '1', '2', '3', '4', '5', '6', '7', '8']
 nodes = []
 for i in range(len(number)):
@@ -26,16 +19,15 @@ square = [['00','01','02','10','11','12','20','21','22'],
           ['66','67','68','76','77','78','86','87','88']]
 
 
-# node is a cell of sudoku
-# color: number
-# status:
-#   true: number correct
-#   false: not found
+# Configuration:
+# each node is a cell of a sudoku sheet
+# color means the number of cell
+# status says if the cell already with the correct number(color)
 
-# create nodes function
-# arg: graph: networkx graph
-#      data: matrix from web form
-# desc: create the nodes and add attributes using a matrix from web form.
+
+# Desc: create nodes and for each node attribute color and status from data.
+# @graph: networkx graph
+# @data: data from web form(array)
 def createNode(graph, data):
     for i in range(9):
         for j in range(9):
@@ -45,33 +37,49 @@ def createNode(graph, data):
                 graph.add_node(nodes[i][j], color=[1,2,3,4,5,6,7,8,9], status=False)
 
 
+# Desc: create all edges of sudoku: rows, columns and squares
+# @graph: networkx graph
 def createEdge(graph):
+    # rows edges
     for i in range(len(number)):
         for j in range(len(number)-1):
             for k in range(j, len(number)-1):
                 graph.add_edge(nodes[i][j], nodes[i][k+1])
 
+    # columns edges
     for i in range(len(number)-1):
         for j in range(len(number)):
             for k in range(i, len(number)-1):
                 graph.add_edge(nodes[i][j], nodes[k+1][j])
 
+    # square edges(using another matrix)
     for i in range(len(number)):
         for j in range(len(number)-1):
             for k in range(j, len( number)-1):
                 graph.add_edge(square[i][j], square[i][k+1])
 
 
-# Welsh Powell graph coloring function
-# arg: networkx graph
-# desc: for all node, if status is false then verify the color of all neighbors
-# with status true and remove this color from your color list.
+# Desc: checks if the sudoku is valid.
+# @graph: networkx graph
+def verification(graph):
+    for i in range(len(number)):
+        for j in range(len(number)):
+            if graph.node[nodes[i][j]]['status']:
+                for e in graph.neighbors(nodes[i][j]):
+                    if graph.node[e]['status'] and graph.node[e]['color'] == graph.node[nodes[i][j]]['color']:
+                        return False
+    return True
+
+
+# Desc: using Welsh Powell coloring graph function, for all nodes with status=false verifies the color
+# of your neighbors with status=true, eliminating colors of your color list.
+# @graph: networkx graph
 def welshPowell(graph):
     for i in range(len(number)):
         for j in range(len(number)):
             if not graph.node[nodes[i][j]]['status']:
-                for e in graph.neighbors(nodes[i][j]):
-                    if graph.node[e]['status']:
+                for e in graph.neighbors(nodes[i][j]):  # neighbors
+                    if graph.node[e]['status']: # if neighbors['status] == True
                         # try remove color
                         try:
                             graph.node[nodes[i][j]]['color'].remove(graph.node[e]['color'])
@@ -80,9 +88,8 @@ def welshPowell(graph):
                             pass
 
 
-# Update node value function
-# arg: networkx graph
-# desc: if status is false and color list length is 1, update status and color.
+# Desc: if status is false and color list length is 1, update status and color.
+# @graph: networkx graph
 def updateValue(graph):
     for i in range(len(number)):
         for j in range(len(number)):
@@ -91,7 +98,10 @@ def updateValue(graph):
                 graph.node[nodes[i][j]]['color'] = graph.node[nodes[i][j]]['color'][0]
 
 
+# Desc: hardcode yet, execute welsh powell and update 5 times
+# @graph: networkx graph
 def makeSolution(graph):
     for i in range(5):
         welshPowell(graph)
         updateValue(graph)
+# For somes medium and hard sudokus level, don't find a single solution!
