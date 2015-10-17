@@ -1,13 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-{% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-{% endfor %}
 <form method="post" action="{{ url_for('sudoku') }}" >
     {% for i in range(9) %}
         <div>
             {% for j in range(9) %}
-                <select name="{{ nodes[i][j] }}" id="">
+                <select name="{{ nodes[i][j] }}" class="box">
                     {% for k in range(10) %}
                         <option>{{ k }}</option>
                     {% endfor %}
@@ -15,7 +12,6 @@
             {% endfor %}
         </div>
     {% endfor %}
-    <button>clear</button>
-    <input type="submit" value="solution">
+    <input type="submit" value="SOLUTION">
 </form>
 {% endblock %}

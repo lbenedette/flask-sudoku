@@ -4,9 +4,9 @@
     <div>
         {% for j in range(9) %}
             {% if graph.node[nodes[i][j]]['status'] %}
-                <input type="text" value="{{ graph.node[nodes[i][j]]['color'] }}" maxlength="1">
+                <input class="box" type="text" value="{{ graph.node[nodes[i][j]]['color'] }}" maxlength="1">
             {% else %}
-                <select id="">
+                <select class="box">
                     {% for k in range(graph.node[nodes[i][j]]['color']|length) %}
                         <option>{{ graph.node[nodes[i][j]]['color'][k] }}</option>
                     {% endfor %}
@@ -15,4 +15,5 @@
         {% endfor %}
     </div>
 {% endfor %}
+<a href="/index"><button>BACK</button></a>
 {% endblock %}

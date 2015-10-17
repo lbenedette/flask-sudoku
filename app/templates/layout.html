@@ -2,13 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>S U D O K U  G R A P H</title>
-    <link rel="stylesheet" href="">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    SUDOKU SOLUTION
+    <header><a href="/index"><strong>S U D O K U G R A P H</strong></a></header>
 
-    {% block content %}
-    {% endblock %}
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

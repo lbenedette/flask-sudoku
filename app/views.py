@@ -6,7 +6,7 @@ from app import app
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template('index.html', nodes=nodes)
+    return render_template('index.html', title='H O M E', nodes=nodes)
 
 
 @app.route("/solution", methods=['POST'])
@@ -16,7 +16,7 @@ def sudoku():
     createNode(sdk, data)
     createEdge(sdk)
     if not verification(sdk):
-        flash('There can not be equal numbers in the same row, column or square.')
+        flash('Warning! There can not be equal numbers in the same row, column or square.')
         return redirect(url_for('index'))
     makeSolution(sdk)
-    return render_template('solution.html', nodes=nodes, graph=sdk)
+    return render_template('solution.html', title='S O L U T I O N', nodes=nodes, graph=sdk)
