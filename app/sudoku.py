@@ -8,6 +8,7 @@ for i in range(len(number)):
     for j in range(len(number)):
         nodes[i].append(number[i]+number[j])
 
+
 square = [['00','01','02','10','11','12','20','21','22'],
           ['03','04','05','13','14','15','23','24','25'],
           ['06','07','08','16','17','18','26','27','28'],
@@ -75,27 +76,25 @@ def verification(graph):
 # of your neighbors with status=true, eliminating colors of your color list.
 # @graph: networkx graph
 def welshPowell(graph):
-    for i in range(len(number)):
-        for j in range(len(number)):
-            if not graph.node[nodes[i][j]]['status']:
-                for e in graph.neighbors(nodes[i][j]):  # neighbors
-                    if graph.node[e]['status']: # if neighbors['status] == True
-                        # try remove color
-                        try:
-                            graph.node[nodes[i][j]]['color'].remove(graph.node[e]['color'])
-                        # case color not on the list
-                        except ValueError:
-                            pass
+    for node in nx.nodes(graph):
+        if not graph.node[node]['status']:
+            for e in graph.neighbors(node):  # neighbors
+                if graph.node[e]['status']: # if neighbors['status] == True
+                    # try remove color
+                    try:
+                        graph.node[node]['color'].remove(graph.node[e]['color'])
+                    # case color not on the list
+                    except ValueError:
+                        pass
 
 
 # Desc: if status is false and color list length is 1, update status and color.
 # @graph: networkx graph
 def updateValue(graph):
-    for i in range(len(number)):
-        for j in range(len(number)):
-            if not graph.node[nodes[i][j]]['status'] and len(graph.node[nodes[i][j]]['color']) == 1:
-                graph.node[nodes[i][j]]['status'] = True
-                graph.node[nodes[i][j]]['color'] = graph.node[nodes[i][j]]['color'][0]
+    for node in nx.nodes(graph):
+        if not graph.node[node]['status'] and len(graph.node[node]['color']) == 1:
+            graph.node[node]['status'] = True
+            graph.node[node]['color'] = graph.node[node]['color'][0]
 
 
 # Desc: hardcode yet, execute welsh powell and update 5 times
